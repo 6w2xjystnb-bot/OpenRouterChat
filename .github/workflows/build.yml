@@ -20,17 +20,12 @@ jobs:
       - name: Show Xcode version
         run: xcodebuild -version
 
-      - name: Install iOS Simulator
-        run: |
-          sudo xcodebuild -downloadPlatform iOS
-          xcrun simctl list devices
-
       - name: Build iOS
         run: |
           xcodebuild build \
             -project OpenRouterChat.xcodeproj \
             -scheme OpenRouterChat \
-            -destination 'platform=iOS Simulator,name=Any iOS Simulator Device' \
+            -sdk iphonesimulator \
             -skipPackagePluginValidation \
             CODE_SIGNING_ALLOWED=NO
 
