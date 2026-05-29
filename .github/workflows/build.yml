@@ -28,7 +28,7 @@ jobs:
           xcodebuild build \
             -project OpenRouterChat.xcodeproj \
             -scheme OpenRouterChat \
-            -destination 'generic/platform=iOS Simulator' \
+            -destination 'platform=iOS Simulator,name=iPhone 16' \
             -skipPackagePluginValidation \
             CODE_SIGNING_ALLOWED=NO
 
