@@ -1,0 +1,57 @@
+disabled_rules:
+  - trailing_whitespace
+
+opt_in_rules:
+  - empty_count
+  - empty_string
+
+line_length:
+  warning: 180
+  error: 250
+
+type_body_length:
+  warning: 400
+  error: 600
+
+file_length:
+  warning: 500
+  error: 1000
+
+function_body_length:
+  warning: 60
+  error: 100
+
+cyclomatic_complexity:
+  warning: 15
+  error: 25
+
+identifier_name:
+  min_length:
+    warning: 1
+    error: 1
+  excluded:
+    - id
+    - t
+    - i
+    - x
+    - y
+    - max_tokens
+    - tool_choice
+    - image_url
+    - finish_reason
+    - tool_calls
+    - enum_values
+    - prompt_tokens
+    - completion_tokens
+    - total_tokens
+    - context_length
+
+large_tuple:
+  warning: 4
+  error: 5
+
+excluded:
+  - OpenRouterChat.xcodeproj
+  - OpenRouterChat/Preview Content
+
+reporter: "xcode"

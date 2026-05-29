@@ -3,7 +3,12 @@ import Foundation
 actor OpenRouterService {
     static let shared = OpenRouterService()
 
-    func sendMessage(messages: [OpenRouterMessage], apiKey: String, model: String = "openrouter/auto", baseURL: String) async throws -> String {
+    func sendMessage(
+        messages: [OpenRouterMessage],
+        apiKey: String,
+        model: String = "openrouter/auto",
+        baseURL: String
+    ) async throws -> String {
         let trimmed = baseURL.trimmingCharacters(in: .whitespacesAndNewlines)
         let urlString = trimmed.hasSuffix("/chat/completions") ? trimmed : trimmed + "/chat/completions"
         guard let url = URL(string: urlString) else {
@@ -65,18 +70,16 @@ actor OpenRouterService {
         return AsyncThrowingStream { continuation in
             Task {
                 do {
-                    for try await line in bytes.lines {
-                        if line.hasPrefix("data: ") {
-                            let dataStr = String(line.dropFirst(6))
-                            if dataStr == "[DONE]" {
-                                continuation.finish()
-                                return
-                            }
-                            if let data = dataStr.data(using: .utf8),
-                               let streamResponse = try? JSONDecoder().decode(StreamResponse.self, from: data),
-                               let content = streamResponse.choices?.first?.delta?.content {
-                                continuation.yield(content)
-                            }
+                    for try await line in bytes.lines where line.hasPrefix("data: ") {
+                        let dataStr = String(line.dropFirst(6))
+                        if dataStr == "[DONE]" {
+                            continuation.finish()
+                            return
+                        }
+                        if let data = dataStr.data(using: .utf8),
+                           let streamResponse = try? JSONDecoder().decode(StreamResponse.self, from: data),
+                           let content = streamResponse.choices?.first?.delta?.content {
+                            continuation.yield(content)
                         }
                     }
                     continuation.finish()
