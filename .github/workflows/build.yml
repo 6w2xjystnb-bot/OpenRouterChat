@@ -2,7 +2,7 @@ name: Build & Test
 
 on:
   push:
-    branches: [main, develop]
+    branches: [main, develop, feature/macos-ios-ci]
   pull_request:
     branches: [main]
 
