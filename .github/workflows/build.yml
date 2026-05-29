@@ -14,8 +14,20 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: List available Xcode versions
+        run: ls -la /Applications/Xcode*.app/Contents/Developer/usr/bin/xcodebuild 2>/dev/null || ls /Applications/Xcode*.app
+
       - name: Select Xcode 26
-        run: sudo xcode-select -s /Applications/Xcode_26.0.app/Contents/Developer
+        run: |
+          if [ -d "/Applications/Xcode_26.5.app" ]; then
+            sudo xcode-select -s /Applications/Xcode_26.5.app/Contents/Developer
+          elif [ -d "/Applications/Xcode_26.4.app" ]; then
+            sudo xcode-select -s /Applications/Xcode_26.4.app/Contents/Developer
+          elif [ -d "/Applications/Xcode_26.2.app" ]; then
+            sudo xcode-select -s /Applications/Xcode_26.2.app/Contents/Developer
+          else
+            sudo xcode-select -s /Applications/Xcode_26.0.app/Contents/Developer
+          fi
 
       - name: Show Xcode version
         run: xcodebuild -version
