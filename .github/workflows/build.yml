@@ -20,13 +20,20 @@ jobs:
       - name: Show Xcode version
         run: xcodebuild -version
 
+      - name: Create iOS Simulator
+        run: |
+          xcrun simctl list devicetypes
+          xcrun simctl list runtimes
+          xcrun simctl create "iPhone 15 Pro" com.apple.CoreSimulator.SimDeviceType.iPhone-15-Pro com.apple.CoreSimulator.SimRuntime.iOS-26-5
+          xcrun simctl list devices
+
       - name: Build iOS
         run: |
           xcodebuild build \
             -project OpenRouterChat.xcodeproj \
             -scheme OpenRouterChat \
             -sdk iphonesimulator \
-            -destination 'platform=iOS Simulator,OS=26.5' \
+            -destination 'platform=iOS Simulator,name=iPhone 15 Pro' \
             -skipPackagePluginValidation \
             CODE_SIGNING_ALLOWED=NO
 
